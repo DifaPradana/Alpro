@@ -1,0 +1,95 @@
+import sqlite3
+
+with sqlite3.connect("company.db") as db :
+    cursor = db.cursor()
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS company(
+        ID INT PRIMARY KEY NOT NULL,
+        Nama TEXT   NOT NULL,
+        Umur INT    NOT NULL,
+        Alamat CHAR(50),
+        Gaji REAL);''')
+print("Tabel Berhasil Dibuat")
+
+
+#Insert
+
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(1, 'Difa', 19, 'Jalan Merdeka', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(2, 'Enco', 23, 'Jalan Nasional', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(3, 'Putra', 22, 'Jalan Melati', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(4, 'Alya', 24, 'Jalan Mawar', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(5, 'Ahmad', 20, 'Jalan Kolonel', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(6, 'Tia', 21, 'Jalan Pahlawan', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(7, 'Kriz', 28, 'Jalan Ring Road', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(8, 'Tara', 27, 'Jalan Ring Road', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(9, 'Yuuka', 26, 'Jalan Melati', 1200000)''')
+cursor.execute('''INSERT INTO company (ID, Nama , Umur, Alamat, Gaji)VALUES(10, 'Kuze', 20, 'Jalan Merdeka', 1200000)''')
+db.commit()
+
+
+
+#Select
+def select():
+    conn = cursor.execute("SELECT ID, Nama, Umur, Alamat, Gaji from company")
+    for row in conn:
+        print("ID = ", row[0])
+        print("Nama = ", row[1])
+        print("Umur = ", row[2])
+        print("Alamat = ", row[3])
+        print("Gaji = ", row[4] ), "\n"
+    return
+
+def update():
+    cursor.execute("UPDATE company set Gaji = 1100000 where ID=1")
+    db.commit()
+    print("Total Update :",db.total_changes)
+    conn = cursor.execute("SELECT ID, Nama, Umur, Alamat, Gaji from company")
+    for row in conn:
+        print("ID = ", row[0])
+        print("Nama = ", row[1])
+        print("Umur = ", row[2])
+        print("Alamat = ", row[3])
+        print("Gaji = ", row[4]) , "\n"
+        print("===================")
+    db.close()
+    return
+
+def delete():
+    cursor.execute("DELETE from company where ID=2;")
+    db.commit()
+    print("Total yang dihapus :",db.total_changes)
+    conn = cursor.execute("SELECT ID, Nama, Umur, Alamat, Gaji from company")
+    for row in conn:
+        print("ID = ", row[0])
+        print("Nama = ", row[1])
+        print("Umur = ", row[2])
+        print("Alamat = ", row[3])
+        print("Gaji = ", row[4]) , "\n"
+        print("====================")
+    db.close()
+    return
+
+def search():
+    cursor.execute("SELECT * FROM company WHERE ID=1  ")
+    print(cursor.fetchall())
+    return
+
+print("Menu : ")
+print("1.Select")
+print("2.Update")
+print("3.Delete")
+print("4.Search")
+pilih = int(input("Menu Yang Dipilih :"))
+if pilih == 1:
+    select()
+
+elif pilih == 2:
+    update()
+
+elif pilih == 3:
+    delete()
+
+elif pilih == 4:
+    search()
+else:
+    exit()
